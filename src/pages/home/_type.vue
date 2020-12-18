@@ -109,10 +109,10 @@
 
 <script>
 import moment from 'moment'
-import headerBar from '../components/Header-bar.vue'
-import bottomNav from '../components/Bottom-nav.vue'
-import toTop from '../components/To-top.vue'
-import * as type from '../store/mutation-types.js'
+import headerBar from '../../components/Header-bar'
+import bottomNav from '../../components/Bottom-nav.vue'
+import toTop from '../../components/To-top.vue'
+import * as type from '../../store/mutation-types.js'
 import {
     mapActions,
     mapState,
@@ -165,9 +165,10 @@ export default {
         const _this = this;
         window.addEventListener('scroll', this.handleScroll);
     },
-    asyncData ({ params, store }) {
-        let param = params
-        console.log('params-------' + JSON.stringify(params))
+    asyncData ({ route }) {
+        return {
+            first: route.query.type
+        }
     },
     watch: {
         '$route': function () {
@@ -253,16 +254,15 @@ export default {
                 type: 'news_fashion'
             },
             ],
-            top: false,
-            first: window.location.search.substring(6),
+            top: false
         }
     },
 }
 </script>
 
 <style lang="less" scoped rel="styleheet/less">
-@import "../assets/css/transtion.less";
-@import "../assets/css/border.less";
+@import "../../assets/css/transtion.less";
+@import "../../assets/css/border.less";
 .home-header-bar {
     & > i {
         margin-top: 0.2rem;
