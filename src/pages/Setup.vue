@@ -1,35 +1,51 @@
 <template>
-<div id="setup">
-    <headerBar>
-        <div class="setup-header" slot="setup-header">
-            <Icon type="ios-arrow-back" size="28" color="#000" class="fl back" @click.native="$router.go(-1)"></Icon>
-            设置
+    <div id="setup">
+        <headerBar>
+            <div class="setup-header"
+                 slot="setup-header">
+                <Icon type="ios-arrow-back"
+                      size="28"
+                      color="#000"
+                      class="fl back"
+                      @click.native="$router.go(-1)"></Icon>
+                设置
+            </div>
+        </headerBar>
+        <div class="item">
+            <nuxt-link to="/editprofile"
+                       class="setup_item"
+                       v-show="showLog_off&&logined"> 编辑资料
+                <Icon type="ios-arrow-right"
+                      size="26"
+                      color="#ccc"
+                      class="fr toeditprofile"></Icon>
+            </nuxt-link>
+            <div class="setup_item">账号和绑定设置</div>
+            <div class="setup_item">黑名单</div>
         </div>
-    </headerBar>
-    <div class="item">
-        <router-link to="/editprofile" class="setup_item" v-show="showLog_off&&logined"> 编辑资料
-        <Icon type="ios-arrow-right" size="26" color="#ccc" class="fr toeditprofile"></Icon>
-        </router-link>
-        <div class="setup_item">账号和绑定设置</div>
-        <div class="setup_item">黑名单</div>
+        <div class="item lingwai">
+            <div class="setup_item">清除缓存</div>
+            <div class="setup_item">字体大小</div>
+            <div class="setup_item hasSwith">列表显示摘要
+                <i-switch class="fr"></i-switch>
+            </div>
+            <div class="setup_item">非WIFI网络流量</div>
+            <div class="setup_item">非WIFI网络播放提醒</div>
+            <div class="setup_item hasSwith">推送通知
+                <i-switch class="fr"
+                          v-model="sign"></i-switch>
+            </div>
+        </div>
+        <div class="log_off"
+             @click="logOff"
+             v-show="logined">退出登录</div>
+        <Modal title="退出确认"
+               v-model="modal"
+               class-name="vertical-center-modal"
+               @on-ok="ok">
+            <p>退出当前账号，将不能同步收藏，发布评论和云端分享等</p>
+        </Modal>
     </div>
-    <div class="item lingwai">
-        <div class="setup_item">清除缓存</div>
-        <div class="setup_item">字体大小</div>
-        <div class="setup_item hasSwith">列表显示摘要
-            <i-switch class="fr"></i-switch>
-        </div>
-        <div class="setup_item">非WIFI网络流量</div>
-        <div class="setup_item">非WIFI网络播放提醒</div>
-        <div class="setup_item hasSwith">推送通知
-            <i-switch class="fr" v-model="sign"></i-switch>
-        </div>
-    </div>
-    <div class="log_off" @click="logOff" v-show="logined">退出登录</div>
-    <Modal title="退出确认" v-model="modal" class-name="vertical-center-modal" @on-ok="ok">
-        <p>退出当前账号，将不能同步收藏，发布评论和云端分享等</p>
-    </Modal>
-</div>
 </template>
 <script>
 import headerBar from '../components/Header-bar.vue'
@@ -46,16 +62,16 @@ export default {
         ...mapActions([
             'setSignOut'
         ]),
-        logOff() {
+        logOff () {
             this.modal = true;
         },
-        ok() {
+        ok () {
             localStorage.removeItem('userName');
             this.setSignOut();
-            this.$router.push({path:'/my'});
+            this.$router.push({ path: '/my' });
         }
     },
-    data() {
+    data () {
         return {
             modal: false,
             sign: true
@@ -69,7 +85,8 @@ export default {
     }
 }
 </script>
-<style lang="less">@import '../assets/css/border.less';
+<style lang="less">
+@import "../assets/css/border.less";
 #setup {
     .setup-header {
         font-size: 18px;
@@ -99,9 +116,9 @@ export default {
             font-weight: bold;
             font-size: 16px;
             .borderBottom(1px,#ccc);
-            .toeditprofile{
-                margin-right: .3rem;
-                margin-top: .2rem;
+            .toeditprofile {
+                margin-right: 0.3rem;
+                margin-top: 0.2rem;
             }
         }
         .hasSwith {

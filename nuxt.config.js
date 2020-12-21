@@ -13,7 +13,7 @@ export default {
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
         ],
         script: [
-            { src: '/rem/flexible.js', type: 'text/javascript', charset: 'utf-8' }
+            { src: 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js', type: 'text/javascript', charset: 'utf-8' }
         ]
     },
 
@@ -24,7 +24,8 @@ export default {
     // Global CSS (https://go.nuxtjs.dev/config-css)
     css: [
         'iview/dist/styles/iview.css',
-        'element-ui/lib/theme-default/index.css'
+        'element-ui/lib/theme-default/index.css',
+        './assets/css/public/reset.css'
     ],
 
     // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -43,7 +44,14 @@ export default {
 
     // Modules (https://go.nuxtjs.dev/config-modules)
     modules: [
+        '@nuxtjs/axios',
     ],
+    axios: {
+        proxy: true
+    },
+    proxy: {
+        "/api": "http://localhost:8080"
+    },
 
     // Build Configuration (https://go.nuxtjs.dev/config-build)
     build: {

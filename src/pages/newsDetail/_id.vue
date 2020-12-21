@@ -1,44 +1,64 @@
 <template>
-<div id="detail">
-    <headerBar class="detail-header">
-        <div slot="detail-header">
-            头条详情
-            <Icon type="ios-arrow-back" size="28" color="#000" class="fl back" @click.native="goBack"></Icon>
-            <Icon type="share" size="28" color="#000" class="fr share" @click.native="showSharebox"></Icon>
+    <div id="detail">
+        <headerBar class="detail-header">
+            <div slot="detail-header">
+                头条详情
+                <Icon type="ios-arrow-back"
+                      size="28"
+                      color="#000"
+                      class="fl back"
+                      @click.native="goBack"></Icon>
+                <Icon type="share"
+                      size="28"
+                      color="#000"
+                      class="fr share"
+                      @click.native="showSharebox"></Icon>
+            </div>
+        </headerBar>
+        <div class="container">
+            <h2 class="detail-title">{{$route.params.title}}</h2>
+            <div class="media_name">
+                <img src="../../assets/imgs/head.jpg"
+                     height="360"
+                     width="360"
+                     alt=""
+                     class="avatar_url">
+                <span class="name">{{media_name}}</span><br>
+                <span class="date">{{datetime}}</span>
+            </div>
+            <div class="contentNews">
+                {{abstract}}
+                <img :src="img.url"
+                     alt=""
+                     v-for="(img,index) in image_list">
+            </div>
+            <div class="keywords">
+                <span v-for="(item,index) in keywords.split(',')">
+                    {{item}}
+                </span>
+            </div>
+            <hr>
+            <div class="zan">
+                <Button type="ghost"
+                        size="large"
+                        icon="thumbsup"
+                        shape="circle">{{repin_count}}</Button>
+                <Button type="ghost"
+                        size="large"
+                        icon="trash-a"
+                        shape="circle">不喜欢</Button>
+            </div>
+            <hr>
         </div>
-    </headerBar>
-    <div class="container">
-        <h2 class="detail-title">{{$route.params.title}}</h2>
-        <div class="media_name">
-            <img src="../assets/imgs/head.jpg" height="360" width="360" alt="" class="avatar_url">
-            <span class="name">{{media_name}}</span><br>
-            <span class="date">{{datetime}}</span>
-        </div>
-        <div class="contentNews">
-            {{abstract}}
-            <img :src="img.url" alt="" v-for="(img,index) in image_list">
-        </div>
-        <div class="keywords">
-            <span v-for="(item,index) in keywords.split(',')">
-				{{item}}
-			</span>
-        </div>
-        <hr>
-        <div class="zan">
-            <Button type="ghost" size="large" icon="thumbsup" shape="circle">{{repin_count}}</Button>
-            <Button type="ghost" size="large" icon="trash-a" shape="circle">不喜欢</Button>
-        </div>
-        <hr>
+        <comment :comment="comment_count"></comment>
+        <shareBox :show="Sharebox"></shareBox>
     </div>
-    <comment :comment="comment_count"></comment>
-    <shareBox :show="Sharebox"></shareBox>
-</div>
 </template>
 <script>
-import headerBar from '../components/Header-bar.vue'
-import shareBox from '../components/Share.vue'
-import comment from '../components/Comment.vue'
-import * as type from '../store/mutation-types.js'
+import headerBar from '../../components/Header-bar.vue'
+import shareBox from '../../components/Share.vue'
+import comment from '../../components/Comment.vue'
+import * as type from '../../store/mutation-types.js'
 import {
     mapActions,
     mapGetters
@@ -49,18 +69,18 @@ export default {
         shareBox,
         comment
     },
-    data(){
+    data () {
         return {
-            media_info:this.$route.params.media_info,
-            title:this.$route.params.title
+            media_info: this.$route.params.media_info,
+            title: this.$route.params.title
         }
     },
     methods: {
-        showSharebox() {
+        showSharebox () {
             this.$store.commit(type.SHOWSHAREBOX, !this.Sharebox);
             console.log(this.media_info)
         },
-        goBack(){
+        goBack () {
             this.$store.commit(type.ROUTERCHANGE, !this.routerChange)
             this.$router.go(-1);
         }
@@ -78,66 +98,67 @@ export default {
         //         return ''
         //     }
         // },
-        media_name:function(){
-            if(this.$route.params.media_name){
+        media_name: function () {
+            if (this.$route.params.media_name) {
                 return this.$route.params.media_name
-            }else{
+            } else {
                 return ''
             }
         },
-        datetime:function(){
-            if(this.$route.params.datetime){
+        datetime: function () {
+            if (this.$route.params.datetime) {
                 return this.$route.params.datetime
-            }else{
+            } else {
                 return ''
             }
         },
-        abstract:function(){
-            if(this.$route.params.abstract){
+        abstract: function () {
+            if (this.$route.params.abstract) {
                 return this.$route.params.abstract
-            }else{
+            } else {
                 return ''
             }
         },
-        image_list:function(){
-            if(this.$route.params.image_list){
+        image_list: function () {
+            if (this.$route.params.image_list) {
                 return this.$route.params.image_list
-            }else{
+            } else {
                 return ''
             }
         },
-        keywords:function(){
-            if(this.$route.params.keywords){
+        keywords: function () {
+            if (this.$route.params.keywords) {
                 return this.$route.params.keywords
-            }else{
+            } else {
                 return ''
             }
         },
-        repin_count:function(){
-            if(this.$route.params.repin_count){
+        repin_count: function () {
+            if (this.$route.params.repin_count) {
                 return this.$route.params.repin_count
-            }else{
+            } else {
                 return ''
             }
         },
-        comment_count:function(){
-            if(this.$route.params.comment_count){
+        comment_count: function () {
+            if (this.$route.params.comment_count) {
                 return this.$route.params.comment_count
-            }else{
+            } else {
                 return ''
             }
         },
     },
     watch: {
-        '$route': function() {
+        '$route': function () {
             this.$store.commit(type.SHOWSHAREBOX, false)
         }
     }
 }
 </script>
-<style lang="less">@import '../assets/css/border.less';
+<style lang="less">
+@import "../../assets/css/border.less";
 #detail {
-    hr{
+    hr {
         height: 1px;
         background: #ccc;
     }
@@ -203,7 +224,7 @@ export default {
             font-size: 16px;
             color: #000;
             text-indent: 0.7rem;
-            line-height: .8rem;
+            line-height: 0.8rem;
             img {
                 text-align: center;
                 display: block;
@@ -224,11 +245,11 @@ export default {
                 border-radius: 0.4rem;
             }
         }
-        .zan{
+        .zan {
             text-align: center;
-            margin-top: .5rem;
-            margin-bottom: .5rem;
-            botton{
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            botton {
                 padding-right: 1rem;
                 color: #000;
             }

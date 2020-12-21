@@ -4,14 +4,14 @@
   		<div slot="collect">
   			<Icon type="ios-arrow-back" size="28" color="#000" class="fl back" @click.native="$router.go(-1)"></Icon>
   			<!-- <Icon type="person-add" size="28" class="fr addFriends" color="#000"></Icon> -->
-  			<router-link to="/collect/my">收藏</router-link>
-  			<router-link to="/collect/readhistory ">阅读</router-link>
-  			<router-link to="/collect/sendhistory ">推送</router-link>
+  			<nuxt-link to="/collect/my">收藏</nuxt-link>
+  			<nuxt-link to="/collect/readhistory ">阅读</nuxt-link>
+  			<nuxt-link to="/collect/sendhistory ">推送</nuxt-link>
   		</div>
   	</headerBar>
     <div class="collect_content">
       <div class="con">
-        <router-link v-for="(item,index) in myCollect" :key="index" class="collect_items clearfix" :to="{
+        <nuxt-link v-for="(item,index) in myCollect" :key="index" class="collect_items clearfix" :to="{
                     name:'newsdetail',
                     params:
                         {   
@@ -35,7 +35,7 @@
             <span class="collect_name">{{item.media_name}}</span>
             <span class="collect_comment">{{item.comment_count}}&nbsp;评论</span>
           </div>
-        </router-link>
+        </nuxt-link>
       </div>
     </div>
     <bottom-nav></bottom-nav>
@@ -44,34 +44,51 @@
 
 <script>
 import axios from 'axios'
-import headerBar from '../components/Header-bar.vue'
-import bottomNav from '../components/Bottom-nav.vue'
+import headerBar from '../../components/Header-bar.vue'
+import bottomNav from '../../components/Bottom-nav.vue'
 export default {
     components: {
         headerBar,
         bottomNav
     },
-    data() {
+    data () {
         return {
             myCollect: []
         }
     },
     methods: {
-        getMY() {
-            axios.get('/src/static/my.json')
-                .then(res => {
-                    const Data = res.data;
-                    this.myCollect = Data.data;
-                })
+        // getMY () {
+        //     axios.get('/my-data')
+        //         .then(res => {
+        //             const Data = res.data;
+        //             this.myCollect = Data.data;
+        //         })
+        // }
+    },
+    watch: {
+        '$route': function () {
+            const { ok, myData } = $axios.$get(`/api/my-data?type=${this.$route.query.type}`)
+            if (ok) {
+                this.myCollect = myData.data
+            }
+        },
+    },
+    async asyncData ({ route, $axios, error }) {
+        const { ok, myData } = await $axios.$get(`/api/my-data?type=${route.params.type}`)
+        if (ok) {
+            return {
+                myCollect: myData.data
+            }
         }
     },
-    created() {
-        this.getMY();
+    created () {
+        // this.getMY();
     }
 }
 </script>
 
-<style lang="less">@import '../assets/css/border.less';
+<style lang="less">
+@import "../../assets/css/border.less";
 #collect {
     .collect-header {
         background: #fff;
@@ -87,7 +104,7 @@ export default {
             width: 1.8rem;
             margin-right: 0.3rem;
         }
-        a.router-link-active {
+        a.nuxt-link-active {
             position: relative;
             &::after {
                 content: "";
@@ -134,7 +151,7 @@ export default {
                         margin-right: 0.2rem;
                     }
                     .collect_comment {
-                        }
+                    }
                 }
             }
         }

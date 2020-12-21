@@ -13,13 +13,13 @@
                     <Icon type="ios-refresh-empty"
                           size="30"></Icon>
                 </span>
-                <router-link to="/search"
-                             class="search fr">
+                <nuxt-link to="/search"
+                           class="search fr">
                     <Icon type="ios-search"
                           size="30"
                           color="#fff"
                           class="homeSearch"></Icon>
-                </router-link>
+                </nuxt-link>
 
             </div>
         </headerBar>
@@ -31,7 +31,9 @@
             <li v-for="(item,index) in navbar"
                 :key="index"
                 class="navBarLi">
-                <router-link :to="{path:item.url,query:{type:item.type}}">{{item.text}}</router-link>
+                <!-- <nuxt-link :to="{name:item.url,params:{type:item.type}}">{{item.text}}</nuxt-link> -->
+                <nuxt-link :to="`${item.url}/${item.type}`">{{item.text}}</nuxt-link>
+                <!-- <a :href="`${item.url}?type=${item.type}`">{{item.text}}</a> -->
             </li>
         </ul>
         <div v-show="loading"
@@ -49,9 +51,9 @@
                     leave-active-class="bounceOutRight">
             <ul class="newsContent animated"
                 v-show="!loading&&ifReturnMsg">
-                <router-link v-for="(val,index) in listCon"
-                             :to="{
-                    name:'newsdetail',
+                <nuxt-link v-for="(val,index) in listCon"
+                           :to="{
+                    name:'newsDetail-id',
                     params:
                         {   id:val.tag_id,
                             title:val.title,
@@ -65,8 +67,8 @@
                             keywords:val.keywords
                         }
                 }"
-                             class="newsDetaile"
-                             :key="index">
+                           class="newsDetaile"
+                           :key="index">
                     <p class="title">{{val.title}}</p>
                     <div>
                         <img alt="加载出错"
@@ -85,7 +87,7 @@
                             <span class="datetime">{{val.datetime|date}}</span>
                         </div>
                     </div>
-                </router-link>
+                </nuxt-link>
             </ul>
         </transition>
         <div class="pulldownload"
@@ -98,7 +100,7 @@
                     leave-active-class="zoomOutRight">
             <Back-top v-show="top"
                       class="animated bounce">
-                <div class="top">
+                <div class="top">123
                     <Icon type="android-arrow-up"></Icon>
                 </div>
             </Back-top>
@@ -156,6 +158,9 @@ export default {
             this.top = window.document.body.scrollTop > 400;
         }
     },
+    created () {
+        // debugger
+    },
     mounted () {
         this.getNews({
             kind: this.first,
@@ -167,7 +172,7 @@ export default {
     },
     asyncData ({ route }) {
         return {
-            first: route.query.type
+            first: route.params.type
         }
     },
     watch: {
@@ -200,57 +205,57 @@ export default {
         return {
             navbar: [{
                 text: '推荐',
-                url: '/home/all',
+                url: '/home',
                 type: '__all__'
             },
             {
                 text: '热点',
-                url: '/home/hot',
+                url: '/home',
                 type: 'news_hot'
             },
             {
                 text: '社会',
-                url: '/home/society',
+                url: '/home',
                 type: 'news_society'
             },
             {
                 text: '娱乐',
-                url: '/home/entertainment',
+                url: '/home',
                 type: 'news_entertainment'
             },
             {
                 text: '科技',
-                url: '/home/tech',
+                url: '/home',
                 type: 'news_tech'
             },
             {
                 text: '汽车',
-                url: '/home/car',
+                url: '/home',
                 type: 'news_car'
             },
             {
                 text: '体育',
-                url: '/home/sports',
+                url: '/home',
                 type: 'news_sports'
             },
             {
                 text: '财经',
-                url: '/home/finance',
+                url: '/home',
                 type: 'news_finance'
             },
             {
                 text: '军事',
-                url: '/home/military',
+                url: '/home',
                 type: 'news_military'
             },
             {
                 text: '国际',
-                url: '/home/world',
+                url: '/home',
                 type: 'news_world'
             },
             {
                 text: '时尚',
-                url: '/home/fashion',
+                url: '/home',
                 type: 'news_fashion'
             },
             ],
@@ -308,7 +313,7 @@ export default {
         a {
             color: #000;
         }
-        .router-link-active {
+        .nuxt-link-active {
             color: #d43d3d;
             font-size: 17px;
             font-weight: bold;

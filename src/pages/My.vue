@@ -1,50 +1,92 @@
 <template>
-<div id="my">
-    <div class="my-header" v-if="logined">
-        <router-link to="/selfpage" class="my-info">
-            <img src="../assets/imgs/head.jpg" alt="" class="my-head-portrait fl">
-            <span class="my-name fl">{{userName}}</span>
-            <Icon type="ios-arrow-right" size="26" color="#fff" class="fr toMyself"></Icon>
-        </router-link>
-        <ul class="info-bar clearfix">
-            <router-link to="/selfpage" class="info-bar-item">
-                <p>1</p>动态</router-link>
-            <router-link to="/care" class="info-bar-item">
-                <p>{{vitality.follow}}</p>关注</router-link>
-            <router-link to="/care" class="info-bar-item">
-                <p>{{vitality.fans}}</p>粉丝</router-link>
-            <router-link to="/care" class="info-bar-item">
-                <p>{{vitality.visitor}}</p>7天访量</router-link>
+    <div id="my">
+        <div class="my-header"
+             v-if="logined">
+            <nuxt-link to="/selfpage"
+                       class="my-info">
+                <img src="../assets/imgs/head.jpg"
+                     alt=""
+                     class="my-head-portrait fl">
+                <span class="my-name fl">{{userName}}</span>
+                <Icon type="ios-arrow-right"
+                      size="26"
+                      color="#fff"
+                      class="fr toMyself"></Icon>
+            </nuxt-link>
+            <ul class="info-bar clearfix">
+                <nuxt-link to="/selfpage"
+                           class="info-bar-item">
+                    <p>1</p>动态
+                </nuxt-link>
+                <nuxt-link to="/care"
+                           class="info-bar-item">
+                    <p>{{vitality.follow}}</p>关注
+                </nuxt-link>
+                <nuxt-link to="/care"
+                           class="info-bar-item">
+                    <p>{{vitality.fans}}</p>粉丝
+                </nuxt-link>
+                <nuxt-link to="/care"
+                           class="info-bar-item">
+                    <p>{{vitality.visitor}}</p>7天访量
+                </nuxt-link>
+            </ul>
+        </div>
+        <div v-else
+             class="loginBox">
+            <h2 class="loginTitl">登录你的头条，精彩永不丢失</h2>
+            <Input class="admin loginInfo"
+                   placeholder="账号"
+                   v-model="admin"></Input>
+            <Input class="password loginInfo"
+                   placeholder="密码"
+                   type="password"
+                   v-model="password"></Input>
+            <br>
+            <Button @click="login"
+                    @keyup.enter="login"
+                    type="ghost"
+                    shape="circle"
+                    class="submit">进入头条</Button>
+        </div>
+        <ul class="midBar">
+            <li is="nuxt-link"
+                class="fl collect isLi"
+                to="/collect/my">
+                <Icon type="cube"
+                      size="24"
+                      color="#f69e32"></Icon><br> 收藏
+            </li>
+            <li is="nuxt-link"
+                class="fl history isLi"
+                to="/collect/readhistory">
+                <Icon type="ios-timer-outline"
+                      size="24"
+                      color="#658cf5"></Icon><br> 历史
+            </li>
         </ul>
+        <div class="tipItems">
+            消息通知
+        </div>
+        <nuxt-link to="/setup"
+                   class="tipItems">
+            系统设置
+            <Icon type="ios-arrow-right"
+                  size="26"
+                  color="#ccc"
+                  class="fr toSetup"></Icon>
+        </nuxt-link>
+        <a class="tipItems"
+           href="https://github.com/hcy1996/vue-toutiao"
+           target=_blank>
+            Github项目地址
+            <Icon type="ios-arrow-right"
+                  size="26"
+                  color="#ccc"
+                  class="fr toSetup"></Icon>
+        </a>
+        <bottom-nav></bottom-nav>
     </div>
-    <div v-else class="loginBox">
-        <h2 class="loginTitl">登录你的头条，精彩永不丢失</h2>
-        <Input class="admin loginInfo" placeholder="账号" v-model="admin"></Input>
-        <Input class="password loginInfo" placeholder="密码" type="password" v-model="password"></Input>
-        <br>
-        <Button @click="login" @keyup.enter="login" type="ghost" shape="circle" class="submit">进入头条</Button>
-    </div>
-    <ul class="midBar">
-        <li is="router-link" class="fl collect isLi" to="/collect/my">
-            <Icon type="cube" size="24" color="#f69e32"></Icon><br> 收藏
-        </li>
-        <li is="router-link" class="fl history isLi" to="/collect/readhistory">
-            <Icon type="ios-timer-outline" size="24" color="#658cf5"></Icon><br> 历史
-        </li>
-    </ul>
-    <div class="tipItems">
-        消息通知
-    </div>
-    <router-link to="/setup" class="tipItems">
-        系统设置
-        <Icon type="ios-arrow-right" size="26" color="#ccc" class="fr toSetup"></Icon>
-    </router-link>
-    <a class="tipItems" href="https://github.com/hcy1996/vue-toutiao" target=_blank>
-    	Github项目地址
-        <Icon type="ios-arrow-right" size="26" color="#ccc" class="fr toSetup"></Icon>
-    </a>
-    <bottom-nav></bottom-nav>
-</div>
 </template>
 
 <script>
@@ -70,7 +112,7 @@ export default {
         ...mapActions([
             'setUserInfo',
         ]),
-        login() {
+        login () {
             if (this.admin === 'admin' && this.password === 'admin') {
                 // this.$store.commit(type.LOGINING, {
                 //     username: this.admin,
@@ -89,7 +131,7 @@ export default {
                 this.open('3')
             }
         },
-        open(nodesc) {
+        open (nodesc) {
             if (nodesc === '1') {
                 this.$Notice.open({
                     title: '账号不能为空',
@@ -108,7 +150,7 @@ export default {
             }
         }
     },
-    data() {
+    data () {
         return {
             admin: '',
             password: ''
@@ -127,11 +169,12 @@ export default {
 }
 </script>
 
-<style lang="less">@import '../assets/css/border.less';
+<style lang="less">
+@import "../assets/css/border.less";
 .my-header {
     height: 5.5rem;
     width: 100%;
-    background: rgba(51,51,51,1);
+    background: rgba(51, 51, 51, 1);
     .my-info {
         height: 4rem;
         display: block;
@@ -241,9 +284,9 @@ export default {
     position: relative;
     padding-left: 0.3rem;
     .verticalBorder(1px,#ccc);
-    .toSetup{
-        margin-right: .3rem;
-        margin-top: .2rem;
+    .toSetup {
+        margin-right: 0.3rem;
+        margin-top: 0.2rem;
     }
 }
 </style>
