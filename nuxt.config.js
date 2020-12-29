@@ -55,5 +55,12 @@ export default {
 
     // Build Configuration (https://go.nuxtjs.dev/config-build)
     build: {
+        extend (config, ctx) {
+            // Run ESLint on save
+            if (ctx.isDev && ctx.isClient) {
+                config.devtool = '#inline-source-map' // 添加此行代码
+                // 表示在开发模式的 client 端启用 source-map
+            }
+        }
     }
 }

@@ -1,22 +1,43 @@
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "nuxt Dev",
+//             "type": "node",
+//             "request": "launch",
+//             "protocol": "inspector",
+//             "program": "${workspaceRoot}/node_modules/nuxt/bin/nuxt.js",
+//             "stopOnEntry": true,
+//             "args": [
+//                 "dev"
+//             ],
+//             "cwd": "${workspaceRoot}",
+//             "sourceMaps": true,
+//             "env": {
+//                 "NODE_ENV": "development",
+//                 "DEBUG": "nuxt:*,app"
+//             }
+//         }
+//     ]
+// }
 {
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "nuxt Dev",
-            "type": "node",
+            "name": "Launch SSR Webpack Program",
             "request": "launch",
-            "protocol": "inspector",
-            "program": "${workspaceRoot}/node_modules/nuxt/bin/nuxt.js",
-            "stopOnEntry": false,
-            "args": [
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
                 "dev"
             ],
-            "cwd": "${workspaceRoot}",
-            "sourceMaps": true,
-            "env": {
-                "NODE_ENV": "development",
-                "DEBUG": "nuxt:*,app"
-            }
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "stopOnEntry": true,
+            "autoAttachChildProcesses": true,
         }
     ]
 }

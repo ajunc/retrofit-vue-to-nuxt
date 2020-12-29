@@ -158,8 +158,11 @@ export default {
             this.top = window.document.body.scrollTop > 400;
         }
     },
+    beforeCreate () {
+        debugger
+    },
     created () {
-        // debugger
+        debugger
     },
     mounted () {
         this.getNews({
@@ -171,6 +174,7 @@ export default {
         window.addEventListener('scroll', this.handleScroll);
     },
     asyncData ({ route }) {
+        debugger
         return {
             first: route.params.type
         }
